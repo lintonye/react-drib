@@ -3,8 +3,8 @@
   flex-wrap: wrap;
   background: #efefef;
   padding: 15px;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
 }
 
 .card {
@@ -12,41 +12,83 @@
   position: relative;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
   background: #FFFFFF;
   box-shadow: 0 1px 2px rgba(0,0,0,0.07);
   margin: 15px;
   width: 220px;
-  height: 200px;
+}
+
+.content {
+  position: relative;
+}
+
+.content > div {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
 }
 
 .preview {
   width: 200px;
   height: 150px;
+  margin: 10px 10px 0 10px;
+}
+
+.gif-target {
+  font-size: 9px;
+  color: #aaaaaa;
+  height: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding: 10px;
 }
 
 .footer {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  align-content: center;
   padding: 8px 10px 8px 10px; 
 }
 
 .footer-item {
   margin-left: 12px;
-  color: #aaaaaa;
+  color: #777;
   font-size: 11.5px;
 }
 
-.stats-item i {
+.footer-item i {
   font-size: 13px;
   margin-right: 2px;
 }
 
 .detail {
-  display: none;
+  padding: 10px;
+  background: rgba(255,255,255,0.9);
+  color: #7D7D7D;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.detail #title {
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.detail #description {
+  font-size: 12px;
+  flex-grow: 1;
+  word-wrap: break-word;
+  overflow: hidden;
+  max-height: 150px;
+}
+
+.detail #created-at {
+  font-size: 14px;
 }

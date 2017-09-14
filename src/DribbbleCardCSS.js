@@ -1,20 +1,23 @@
 import React from 'react';
 import './CardGrid.css';
+import Icon from './Icon';
 
-const Preview = ({ url, onMouseEnter, onMouseLeave }) => (
-  <img src={url} className='preview'
-    onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} />
+const Preview = ({ url }) => (
+  <img src={url} className='preview' />
 );
 
-const DetailOverlay = ({ title, description, createdAt }) => (
+const cleanse = (html: string) => {
+  const htmlTag = /<\/?([^<>])+>/g;
+  return html.replace(htmlTag, '').replace(/&amp;/g, '&');
+};
+
+const Descriptor = ({ title, description, createdAt }) => (
   <div className='detail'>
-    <div>{title}</div>
-    <div>{description}</div>
-    <div>{createdAt}</div>
+    <div id='title'>{title}</div>
+    <div id='description'>{description && cleanse(description)}</div>
+    <div id='created-at'>{createdAt}</div>
   </div>
 );
-
-const Icon = ({name}) => <i className={'fa fa-fw fa-'+name}></i>;
 
 const Footer = ({ shot }) => (
   <div className='footer'>
@@ -24,28 +27,55 @@ const Footer = ({ shot }) => (
   </div>
 );
 
-export default class DribbbleCard extends React.Component {
+const GifTarget = ({ onMouseEnter, onMouseLeave }) => (
+  <div className='gif-target'
+    onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+    [ GIF ]
+  </div>
+);
+
+class Content extends React.Component {
   state = {
     previewMode: 'teaser'
   }
-  handleMouseEnter = () => this.setState({ previewMode: 'animated' })
+  handleMouseEnterGifTarget = () => this.setState({ previewMode: 'animated' })
+  handleMouseEnterDescTarget = () => this.setState({ previewMode: 'descriptor' })
   handleMouseLeave = () => this.setState({ previewMode: 'teaser' })
   render() {
     const { shot } = this.props;
-    const previewUrl = this.state.previewMode === 'teaser'
-      ? shot.images.teaser
-      : shot.images.hidpi;
+    const previewImage = this.state.previewMode === 'animated'
+      ? shot.images.hidpi
+      : shot.images.teaser;
     return (
-      <div className='card'>
-        <Preview url={previewUrl}
-          onMouseEnter={this.handleMouseEnter}
-          onMouseLeave={this.handleMouseLeave} />
-        <DetailOverlay title={shot.title}
-          description={shot.description}
-          createdAt={shot.created_at}
-        />
-        <Footer shot={shot} />
+      <div className='content'
+        onMouseEnter={this.handleMouseEnterDescTarget}
+        onMouseLeave={this.handleMouseLeave}
+      >
+        <Preview url={previewImage} />
+        {
+          this.state.previewMode === 'descriptor' && (
+            <Descriptor title={shot.title}
+              description={shot.description}
+              createdAt={shot.created_at}
+            />
+          )
+        }
+        {shot.animated && (
+          <GifTarget
+            onMouseEnter={this.handleMouseEnterGifTarget}
+            onMouseLeave={this.handleMouseLeave}
+          />
+        )}
       </div>
-    )
+    );
   }
 }
+
+const Card = ({ shot }) => (
+  <div className='card'>
+    <Content shot={shot} />
+    <Footer shot={shot} />
+  </div>
+);
+
+export default Card;
