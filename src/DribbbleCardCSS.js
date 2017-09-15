@@ -2,13 +2,14 @@ import React from 'react';
 import './CardGrid.css';
 import Icon from './Icon';
 import * as Utils from './Utils';
+import { Motion, spring } from 'react-motion';
 
 const Preview = ({ url }) => (
   <img src={url} className='preview' />
 );
 
-const Descriptor = ({ title, description, createdAt }) => (
-  <div className='detail'>
+const Descriptor = ({ title, description, createdAt, style }) => (
+  <div className='detail' style={style}>
     <div id='title'>{title}</div>
     <div id='description'>{Utils.cleanse(description)}</div>
     <div id='created-at'>{Utils.formatDate(createdAt)}</div>
@@ -48,14 +49,17 @@ class Content extends React.Component {
         onMouseLeave={this.handleMouseLeave}
       >
         <Preview url={previewImage} />
-        {
-          this.state.previewMode === 'descriptor' && (
-            <Descriptor title={shot.title}
-              description={shot.description}
-              createdAt={shot.created_at}
-            />
-          )
-        }
+        <Motion style={{ opacity: spring(this.state.previewMode === 'descriptor' ? 1 : 0) }}>
+          {
+            ({ opacity }) => (
+              <Descriptor title={shot.title}
+                description={shot.description}
+                createdAt={shot.created_at}
+                style={{ opacity }}
+              />
+            )
+          }
+        </Motion>
         {shot.animated && (
           <GifTarget
             onMouseEnter={this.handleMouseEnterGifTarget}
