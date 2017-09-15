@@ -1,29 +1,25 @@
 import React from 'react';
 import './CardGrid.css';
 import Icon from './Icon';
+import * as Utils from './Utils';
 
 const Preview = ({ url }) => (
   <img src={url} className='preview' />
 );
 
-const cleanse = (html: string) => {
-  const htmlTag = /<\/?([^<>])+>/g;
-  return html.replace(htmlTag, '').replace(/&amp;/g, '&');
-};
-
 const Descriptor = ({ title, description, createdAt }) => (
   <div className='detail'>
     <div id='title'>{title}</div>
-    <div id='description'>{description && cleanse(description)}</div>
-    <div id='created-at'>{createdAt}</div>
+    <div id='description'>{Utils.cleanse(description)}</div>
+    <div id='created-at'>{Utils.formatDate(createdAt)}</div>
   </div>
 );
 
 const Footer = ({ shot }) => (
   <div className='footer'>
-    <div className='footer-item'><Icon name='eye' />{shot.views_count}</div>
-    <div className='footer-item'><Icon name='comment' />{shot.comments_count}</div>
-    <div className='footer-item'><Icon name='heart' />{shot.likes_count}</div>
+    <div className='footer-item'><Icon name='eye' />{shot.views_count.toLocaleString()}</div>
+    <div className='footer-item'><Icon name='comment' />{shot.comments_count.toLocaleString()}</div>
+    <div className='footer-item'><Icon name='heart' />{shot.likes_count.toLocaleString()}</div>
   </div>
 );
 
