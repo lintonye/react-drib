@@ -48,7 +48,7 @@ const AnimatedDescriptorPopup = ({ shot, visible }) => (
   </Motion>
 );
 
-const AnimatedDescriptor = AnimatedDescriptorPopup;
+const AnimatedDescriptor = AnimatedDescriptorOpacity;
 
 const Footer = ({ shot }) => (
   <div className='footer'>
