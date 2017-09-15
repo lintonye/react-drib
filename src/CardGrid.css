@@ -66,7 +66,7 @@
   margin-right: 2px;
 }
 
-.detail {
+.desc {
   padding: 10px;
   background: rgba(255,255,255,0.9);
   color: #7D7D7D;
@@ -75,13 +75,13 @@
   overflow: hidden;
 }
 
-.detail #title {
+.desc #title {
   font-size: 15px;
   font-weight: bold;
   margin-bottom: 5px;
 }
 
-.detail #description {
+.desc #description {
   font-size: 12px;
   flex-grow: 1;
   word-wrap: break-word;
@@ -89,6 +89,6 @@
   max-height: 150px;
 }
 
-.detail #created-at {
+.desc #created-at {
   font-size: 14px;
 }

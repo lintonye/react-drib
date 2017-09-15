@@ -9,7 +9,7 @@ const Preview = ({ url }) => (
 );
 
 const Descriptor = ({ title, description, createdAt, style }) => (
-  <div className='detail' style={style}>
+  <div className='desc' style={style}>
     <div id='title'>{title}</div>
     <div id='description'>{Utils.cleanse(description)}</div>
     <div id='created-at'>{Utils.formatDate(createdAt)}</div>
