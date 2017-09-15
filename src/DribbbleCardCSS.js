@@ -16,6 +16,39 @@ const Descriptor = ({ title, description, createdAt, style }) => (
   </div>
 );
 
+const AnimatedDescriptorOpacity = ({ shot, visible }) => (
+  <Motion style={{ opacity: spring(visible ? 1 : 0) }}>
+    {
+      ({ opacity }) => (
+        <Descriptor title={shot.title}
+          description={shot.description}
+          createdAt={shot.created_at}
+          style={{ opacity }}
+        />
+      )
+    }
+  </Motion>
+);
+
+const AnimatedDescriptorPopup = ({ shot, visible }) => (
+  <Motion style={{ 
+    y: spring(visible ? 0 : 100), 
+    opacity: spring(visible ? 1 : 0)
+  }}>
+    {
+      ({ y, opacity }) => (
+        <Descriptor title={shot.title}
+          description={shot.description}
+          createdAt={shot.created_at}
+          style={{ transform: `translateY(${y}px)`, opacity }}
+        />
+      )
+    }
+  </Motion>
+);
+
+const AnimatedDescriptor = AnimatedDescriptorPopup;
+
 const Footer = ({ shot }) => (
   <div className='footer'>
     <div className='footer-item'><Icon name='eye' />{shot.views_count.toLocaleString()}</div>
@@ -49,17 +82,7 @@ class Content extends React.Component {
         onMouseLeave={this.handleMouseLeave}
       >
         <Preview url={previewImage} />
-        <Motion style={{ opacity: spring(this.state.previewMode === 'descriptor' ? 1 : 0) }}>
-          {
-            ({ opacity }) => (
-              <Descriptor title={shot.title}
-                description={shot.description}
-                createdAt={shot.created_at}
-                style={{ opacity }}
-              />
-            )
-          }
-        </Motion>
+        <AnimatedDescriptor shot={shot} visible={this.state.previewMode === 'descriptor'} />
         {shot.animated && (
           <GifTarget
             onMouseEnter={this.handleMouseEnterGifTarget}
